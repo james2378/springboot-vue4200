@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.ZhunongshangpinDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.ZhunongshangpinEntity" id="zhunongshangpinMap">
+        <result property="chanpinbianhao" column="chanpinbianhao"/>
+        <result property="chanpinmingcheng" column="chanpinmingcheng"/>
+        <result property="chanpinfenlei" column="chanpinfenlei"/>
+        <result property="tupian" column="tupian"/>
+        <result property="faburiqi" column="faburiqi"/>
+        <result property="baozhiqi" column="baozhiqi"/>
+        <result property="shengchandi" column="shengchandi"/>
+        <result property="guige" column="guige"/>
+        <result property="chanpinxiangqing" column="chanpinxiangqing"/>
+        <result property="nonghuzhanghao" column="nonghuzhanghao"/>
+        <result property="nonghuxingming" column="nonghuxingming"/>
+        <result property="onelimittimes" column="onelimittimes"/>
+        <result property="alllimittimes" column="alllimittimes"/>
+        <result property="clicktime" column="clicktime"/>
+        <result property="clicknum" column="clicknum"/>
+        <result property="discussnum" column="discussnum"/>
+        <result property="price" column="price"/>
+        <result property="vipprice" column="vipprice"/>
+        <result property="storeupnum" column="storeupnum"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.entity.vo.ZhunongshangpinVO" >
+		SELECT * FROM zhunongshangpin  zhunongshangpin         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.entity.vo.ZhunongshangpinVO" >
+		SELECT  zhunongshangpin.* FROM zhunongshangpin  zhunongshangpin 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.entity.view.ZhunongshangpinView" >
+
+		SELECT  zhunongshangpin.* FROM zhunongshangpin  zhunongshangpin 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.entity.view.ZhunongshangpinView" >
+		SELECT * FROM zhunongshangpin  zhunongshangpin <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+
+    <select id="selectValue" resultType="map" >
+        SELECT ${params.xColumn}, ROUND(sum(${params.yColumn}),1) total FROM zhunongshangpin
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.xColumn}
+    </select>
+
+    <select id="selectTimeStatValue" resultType="map" >
+        <if test = 'params.timeStatType == "日"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m-%d') ${params.xColumn}, sum(${params.yColumn}) total FROM zhunongshangpin
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m-%d')
+        </if>
+        <if test = 'params.timeStatType == "月"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m') ${params.xColumn}, sum(${params.yColumn}) total FROM zhunongshangpin
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m')
+        </if>
+        <if test = 'params.timeStatType == "年"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y') ${params.xColumn}, sum(${params.yColumn}) total FROM zhunongshangpin
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y')
+        </if>
+    </select>
+
+    <select id="selectGroup" resultType="map" >
+        SELECT ${params.column} , count(1) total FROM zhunongshangpin
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+    </select>
+
+
+
+
+</mapper>
